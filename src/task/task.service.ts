@@ -75,4 +75,32 @@ export class TaskService {
       );
     }
   }
+
+  async deleteTask(userId: number, taskId: number, data: TaskUpdateDto) {
+    let count = 0;
+    try {
+      count = (
+        await this.database.task.delete({
+          where: {
+            id: taskId,
+            authorId: userId,
+          },
+          data: {
+            ...data,
+          },
+        })
+      ).count;
+    } catch (error) {
+      throw new Error(
+        `Database error. Further more https://www.prisma.io/docs/reference/api-reference/error-reference#${error.code.toLowerCase()}`,
+      );
+    }
+    if (count === 0) {
+      throw new Error('Task not found');
+    }
+    return {
+      id: taskId,
+      delete: true 
+    };
+  }
 }
