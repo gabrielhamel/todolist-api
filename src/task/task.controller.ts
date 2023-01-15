@@ -1,4 +1,13 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, Req } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+  Req,
+} from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Request } from 'express';
 import { UserService } from 'src/user/user.service';
@@ -37,13 +46,8 @@ export class TaskController {
   }
 
   @Delete(':id')
-  deleteTask(
-    @Req() request: Request,
-    @Body() body: TaskUpdateDto,
-    @Param('id') id: number,
-  ) {
+  deleteTask(@Req() request: Request, @Param('id') id: number) {
     const userId = this.userService.getUserId(request);
-    return this.taskService.deleteTask(userId, id, body);
+    return this.taskService.deleteTask(userId, id);
   }
 }
-

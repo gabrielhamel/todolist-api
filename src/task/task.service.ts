@@ -76,17 +76,14 @@ export class TaskService {
     }
   }
 
-  async deleteTask(userId: number, taskId: number, data: TaskUpdateDto) {
+  async deleteTask(userId: number, taskId: number) {
     let count = 0;
     try {
       count = (
-        await this.database.task.delete({
+        await this.database.task.deleteMany({
           where: {
             id: taskId,
             authorId: userId,
-          },
-          data: {
-            ...data,
           },
         })
       ).count;
@@ -100,7 +97,6 @@ export class TaskService {
     }
     return {
       id: taskId,
-      delete: true 
     };
   }
 }
